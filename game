@@ -1,0 +1,25 @@
+import javax.swing.JFrame;
+
+public class game extends JFrame{
+	
+	//constructor
+	public game(){
+
+		add(new Board());
+		setTitle("The Game");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(512, 512);
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setResizable(false);
+		
+	}
+	
+	public static void main(String[] args){
+		
+		game g = new game();
+		
+	}
+	
+	
+}
