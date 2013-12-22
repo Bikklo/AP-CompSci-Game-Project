@@ -1,0 +1,244 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+
+@SuppressWarnings("serial")
+public class Board extends JPanel implements ActionListener {
+	int score = 0;
+
+	int tempX = 0;
+	int tempY = 0;
+
+	Image explosion;
+	Random generator = new Random(8659);
+	Image background;
+	Timer timer;
+	public knight k = new knight();
+	Skeleton s = new Skeleton();
+	Skeleton s1 = new Skeleton();
+	Skeleton s2 = new Skeleton();
+	Skeleton s3 = new Skeleton();
+
+	public Board() {
+
+		addKeyListener(new TAdapter());
+		setFocusable(true);
+		setBackground(Color.BLACK);
+		setDoubleBuffered(true);
+
+		timer = new Timer(5, this);
+		timer.start();
+		loadImage();
+	}
+
+	public void paint(Graphics g) {
+		super.paint(g);
+
+		Graphics2D g2d = (Graphics2D) g;
+
+		Rectangle knightRect = new Rectangle(k.getX(), k.getY(), 48, 48);
+		Rectangle skeletonRect = new Rectangle(s.getX(), (int) s.getY(), 48, 48);
+		Rectangle skeleton1Rect = new Rectangle(s1.getX(), (int) s1.getY(), 48,
+				48);
+		Rectangle skeleton2Rect = new Rectangle(s2.getX(), (int) s2.getY(), 48,
+				48);
+		Rectangle skeleton3Rect = new Rectangle(s3.getX(), (int) s3.getY(), 48,
+				48);
+		if ((skeletonRect.intersects(knightRect)) && (k.notAttacking == false)) {
+
+			score++;
+
+			System.out.println(score);
+
+			int ytemp1 = -1 * (generator.nextInt(100) + 100);
+			int xtemp1 = -1 * (generator.nextInt(100) + 100);
+			int ytemp2 = (generator.nextInt(412) + 300);
+			int xtemp2 = (generator.nextInt(412) + 300);
+
+			int option = generator.nextInt(4) + 1;
+
+			// System.out.println(option);
+
+			switch (option) {
+			case 1:
+				s.xcoord = xtemp1;
+				s.ycoord = ytemp1;
+				break;
+			case 2:
+				s.xcoord = xtemp1;
+				s.ycoord = ytemp2;
+				break;
+			case 3:
+				s.xcoord = xtemp2;
+				s.ycoord = ytemp1;
+				break;
+			case 4:
+				s.xcoord = xtemp2;
+				s.ycoord = ytemp1;
+				break;
+
+			}
+
+		}
+		if ((skeleton1Rect.intersects(knightRect)) && (k.notAttacking == false)) {
+
+			score++;
+			System.out.println(score);
+
+			int ytemp1 = -1 * (generator.nextInt(100) + 100);
+			int xtemp1 = -1 * (generator.nextInt(100) + 100);
+			int ytemp2 = (generator.nextInt(412) + 300);
+			int xtemp2 = (generator.nextInt(412) + 300);
+
+			int option = generator.nextInt(4) + 1;
+
+			// System.out.println(option);
+
+			switch (option) {
+			case 1:
+				s1.xcoord = xtemp1;
+				s1.ycoord = ytemp1;
+				break;
+			case 2:
+				s1.xcoord = xtemp1;
+				s1.ycoord = ytemp2;
+				break;
+			case 3:
+				s1.xcoord = xtemp2;
+				s1.ycoord = ytemp1;
+				break;
+			case 4:
+				s1.xcoord = xtemp2;
+				s1.ycoord = ytemp1;
+				break;
+
+			}
+
+		}
+
+		if ((skeleton2Rect.intersects(knightRect)) && (k.notAttacking == false)) {
+			score++;
+			System.out.println(score);
+
+			int ytemp1 = -1 * (generator.nextInt(100) + 100);
+			int xtemp1 = -1 * (generator.nextInt(100) + 100);
+			int ytemp2 = (generator.nextInt(412) + 300);
+			int xtemp2 = (generator.nextInt(412) + 300);
+
+			int option = generator.nextInt(4) + 1;
+
+			switch (option) {
+			case 1:
+				s2.xcoord = xtemp1;
+				s2.ycoord = ytemp1;
+				break;
+			case 2:
+				s2.xcoord = xtemp1;
+				s2.ycoord = ytemp2;
+				break;
+			case 3:
+				s2.xcoord = xtemp2;
+				s2.ycoord = ytemp1;
+				break;
+			case 4:
+				s2.xcoord = xtemp2;
+				s2.ycoord = ytemp1;
+				break;
+			}
+		}
+
+		if ((skeleton3Rect.intersects(knightRect)) && (k.notAttacking == false)) {
+			score++;
+			System.out.println(score);
+
+			int ytemp1 = -1 * (generator.nextInt(100) + 100);
+			int xtemp1 = -1 * (generator.nextInt(100) + 100);
+			int ytemp2 = (generator.nextInt(412) + 300);
+			int xtemp2 = (generator.nextInt(412) + 300);
+
+			int option = generator.nextInt(4) + 1;
+
+			switch (option) {
+			case 1:
+				s3.xcoord = xtemp1;
+				s3.ycoord = ytemp1;
+				break;
+			case 2:
+				s3.xcoord = xtemp1;
+				s3.ycoord = ytemp2;
+				break;
+			case 3:
+				s3.xcoord = xtemp2;
+				s3.ycoord = ytemp1;
+				break;
+			case 4:
+				s3.xcoord = xtemp2;
+				s3.ycoord = ytemp1;
+				break;
+
+			}
+
+		}
+
+		g2d.drawImage(k.getImage(), k.getX(), k.getY(), this);
+
+		s.move(k.getX(), k.getY());
+		g2d.drawImage(s.getImage(), s.getX(), s.getY(), this);
+		s1.move(k.getX(), k.getY());
+		g2d.drawImage(s1.getImage(), s1.getX(), s1.getY(), this);
+		s2.move(k.getX(), k.getY());
+		g2d.drawImage(s2.getImage(), s2.getX(), s2.getY(), this);
+		s3.move(k.getX(), k.getY());
+		g2d.drawImage(s3.getImage(), s3.getX(), s3.getY(), this);
+		// g2d.drawImage(k.getImage(), k.getX(), k.getY(), this);
+		Toolkit.getDefaultToolkit().sync();
+		g.dispose();
+
+		// System.out.println(k.getX());
+		// System.out.println(k.getY());
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		int width = getWidth();
+		int height = getHeight();
+		int imageWidth = background.getWidth(this);
+		int imageHeight = background.getHeight(this);
+		int x = (width - imageWidth) / 2;
+		int y = (height - imageHeight) / 2;
+		g.drawImage(background, x, y, this);
+	}
+
+	public void loadImage() {
+		ImageIcon image = new ImageIcon(this.getClass().getResource(
+				"Background.png"));
+		background = image.getImage();
+
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		k.move();
+
+		repaint();
+
+	}
+
+	private class TAdapter extends KeyAdapter {
+
+		public void keyReleased(KeyEvent e) {
+			k.keyReleased(e);
+		}
+
+		public void keyPressed(KeyEvent e) {
+			k.keyPressed(e);
+		}
+	}
+}
