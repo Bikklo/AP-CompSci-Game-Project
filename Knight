@@ -2,30 +2,30 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 
-public class knight {
-
+public class Knight {
 	public boolean notAttacking = true;
-	public boolean left =  false;
+	public boolean left = false;
 	public int dx;
 	public int dy;
 	public int xcoord;
 	public int ycoord;
-
 	Image knight;
 	Image knightAttack;
 	Image knightMirror;
 	Image knightAttackMirror;
-	
-	public knight() {
+
+	public Knight() {
 		ImageIcon ii = new ImageIcon(this.getClass().getResource("Knight.png"));
-		ImageIcon iii = new ImageIcon(this.getClass().getResource("KnightAttack.png"));
-		ImageIcon i = new ImageIcon(this.getClass().getResource("KnightLeft.png"));
-		ImageIcon iiii = new ImageIcon(this.getClass().getResource("Knight Attack Left.png"));
+		ImageIcon iii = new ImageIcon(this.getClass().getResource(
+				"Knight Attack.png"));
+		ImageIcon i = new ImageIcon(this.getClass().getResource(
+				"Knight Left.png"));
+		ImageIcon iiii = new ImageIcon(this.getClass().getResource(
+				"Knight Attack Left.png"));
 		knight = ii.getImage();
 		knightAttack = iii.getImage();
 		knightMirror = i.getImage();
 		knightAttackMirror = iiii.getImage();
-		
 		xcoord = 48;
 		ycoord = 48;
 	}
@@ -44,71 +44,57 @@ public class knight {
 	}
 
 	public Image getImage() {
-		if(left == false){
-			if(notAttacking){
+		if (left == false) {
+			if (notAttacking) {
 				return knight;
-			}else{
+			} else {
 				return knightAttack;
 			}
-		}else{
-			if(notAttacking){
+		} else {
+			if (notAttacking) {
 				return knightMirror;
-			}else{
+			} else {
 				return knightAttackMirror;
 			}
 		}
 	}
 
 	public void keyPressed(KeyEvent e) {
-
 		int key = e.getKeyCode();
-		
-		if((key==KeyEvent.VK_X)){
+		if ((key == KeyEvent.VK_X)) {
 			notAttacking = false;
 		}
-		
 		if ((key == KeyEvent.VK_LEFT) && (xcoord > 0)) {
 			left = true;
 			dx = -4;
-		}else if(xcoord <= 0){
+		} else if (xcoord <= 0) {
 			dx = 0;
 			xcoord = -1;
 		}
-		
-
-		if ((key == KeyEvent.VK_RIGHT)&&(xcoord<464)) {
+		if ((key == KeyEvent.VK_RIGHT) && (xcoord < 464)) {
 			dx = 4;
 			left = false;
-		}
-		else if(xcoord >= 464)
-		{
+		} else if (xcoord >= 464) {
 			dx = 0;
 			xcoord = 463;
 		}
-
 		if (key == KeyEvent.VK_UP && ycoord > 0) {
 			dy = -4;
-		}
-		else if(ycoord <= 0)
-		{
+		} else if (ycoord <= 0) {
 			dy = 0;
 			ycoord = -1;
 		}
-
-		if ((key == KeyEvent.VK_DOWN) && (ycoord<436)) {
+		if ((key == KeyEvent.VK_DOWN) && (ycoord < 436)) {
 			dy = 4;
-		}
-		else if(ycoord>=436)
-		{
+		} else if (ycoord >= 436) {
 			dy = 0;
 			ycoord = 435;
 		}
-		
 	}
 
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
-		if((key==KeyEvent.VK_X)){
+		if ((key == KeyEvent.VK_X)) {
 			notAttacking = true;
 		}
 		if (key == KeyEvent.VK_LEFT) {
@@ -126,6 +112,5 @@ public class knight {
 		if (key == KeyEvent.VK_DOWN) {
 			dy = 0;
 		}
-
 	}
 }
