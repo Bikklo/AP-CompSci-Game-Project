@@ -21,7 +21,7 @@ public class Board extends JPanel implements ActionListener {
 	Random generator = new Random(8659);
 	Image background;
 	Timer timer;
-	Font scoreFont = new Font("Comic Sans MS", Font.PLAIN, Font.ROMAN_BASELINE).deriveFont(20.0f);
+	Font scoreFont = new Font("Arcadepix Plus", Font.TRUE_TYPE, Font.ROMAN_BASELINE).deriveFont(24.0f);
 	FontMetrics scoreFontMetrics = this.getFontMetrics(this.scoreFont);
 	public Knight k = new Knight();
 	Skeleton[] skeletonArray = new Skeleton[1000];
@@ -48,7 +48,7 @@ public class Board extends JPanel implements ActionListener {
 		skeletonArray[1].makeVisible();
 		
 		//sets up the timer
-		timer = new Timer(8, this);
+		timer = new Timer(10, this);
 		timer.start();
 		
 		//loads the background
@@ -103,19 +103,19 @@ public class Board extends JPanel implements ActionListener {
 		}
 		
 		//prints the score, health, and wave
-		g2d.setColor(Color.ORANGE);
+		g2d.setColor(Color.WHITE);
 		g2d.setFont(this.scoreFont);
-		g2d.drawString(String.format("Score: %d", this.score), 0, this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent());
-		g2d.drawString(String.format("Health: %d", this.health), 0, 2 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
-		g2d.drawString(String.format("Wave: %d", this.wave), 0, 3 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
+		g2d.drawString(String.format("  Score: %d", this.score), 0, this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent());
+		g2d.drawString(String.format("  Health: %d", this.health), 0, 2 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
+		g2d.drawString(String.format("  Wave: %d", this.wave), 0, 3 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
 		}else{
 			//this runs if the game is over(when health <= 0)
 			//prints game over
-			Font gameOverFont = this.scoreFont.deriveFont(100.0f);
-			FontMetrics gameOverFontMetrics = this.getFontMetrics(gameOverFont);
-			g2d.setFont(gameOverFont);
-			g2d.setColor(new Color((0x100 - 1) << 16));
-			g2d.drawString("Game Over", 0, gameOverFontMetrics.getHeight() - gameOverFontMetrics.getMaxAscent() + gameOverFontMetrics.getAscent());
+			Image gameOver;
+			ImageIcon gO = new ImageIcon(this.getClass().getResource("Game Over.png"));
+			gameOver = gO.getImage();
+			g2d.drawImage(gameOver, 0, 0, null);
+
 		}
 		
 		//From zetcode.net java games tutorial(probably refreshes everything), makes things work{
