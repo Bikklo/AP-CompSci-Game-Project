@@ -3,75 +3,44 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import java.util.Random;
 
-public class Loot{
+public class Loot {
 	public int xcoord;
 	public int ycoord;
 	Image Loot;
 	public Random generator = new Random();
-	public boolean visible = false;
-
+	public int value;
+	// constructor that creates a new loot pile
 	public Loot() {
-		ImageIcon i = new ImageIcon(this.getClass().getResource("Loot.png"));
-		Loot = i.getImage();
-		xcoord = 500;
-		ycoord = 500;
+		ImageIcon l = new ImageIcon(this.getClass().getResource("Loot.png"));
+		Loot = l.getImage();
+		randomizePositionandValue();
 	}
-
+	// returns the x coordinate
 	public int getX() {
 		return xcoord;
 	}
-
+	// returns the y coordinate
 	public int getY() {
 		return ycoord;
 	}
-
+	// returns the loot sprite
 	public Image getImage() {
 		return Loot;
 	}
-
-	public boolean checkCollisions(Rectangle knightRect, boolean k) {
-		Rectangle lootRect = new Rectangle(this.getX(), this.getY(),
-				48 - 12, 48);
-		if ((lootRect.intersects(knightRect)) && (k == false)) {
-			int ytemp1 = -1 * (generator.nextInt(100) + 100);
-			int xtemp1 = -1 * (generator.nextInt(100) + 100);
-			int ytemp2 = (generator.nextInt(412) + 300);
-			int xtemp2 = (generator.nextInt(412) + 300);
-			int option = generator.nextInt(4) + 1;
-			switch (option) {
-			case 1:
-				this.xcoord = xtemp1;
-				this.ycoord = ytemp1;
-				break;
-			case 2:
-				this.xcoord = xtemp1;
-				this.ycoord = ytemp2;
-				break;
-			case 3:
-				this.xcoord = xtemp2;
-				this.ycoord = ytemp1;
-				break;
-			case 4:
-				this.xcoord = xtemp2;
-				this.ycoord = ytemp2;
-				break;
-			}
-			return true;
-		} else {
-			return false;
-		}
+	// generates the position of the loot and its value
+	public void randomizePositionandValue() {
+		xcoord = generator.nextInt(450)+1;
+		ycoord = generator.nextInt(450)+1;
+		value = generator.nextInt(10)+1;
 	}
-
+	// checks for knight collisions and adds to score and moves if true
 	public boolean checkknightCollisions(Rectangle knightRect) {
 		Rectangle skeletonRect = new Rectangle(this.getX(), this.getY(), 48, 48);
 		if ((skeletonRect.intersects(knightRect))) {
+			randomizePositionandValue();
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	public void makeVisible() {
-		visible = true;
 	}
 }
