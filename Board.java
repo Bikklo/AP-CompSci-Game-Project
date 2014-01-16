@@ -12,6 +12,8 @@ import java.util.Random;
 
 @SuppressWarnings("serial")
 public class Board extends JPanel implements ActionListener {
+	
+	//variables
 	int score = 0;
 	int tempX = 0;
 	int tempY = 0;
@@ -22,41 +24,59 @@ public class Board extends JPanel implements ActionListener {
 	Font scoreFont = new Font("Comic Sans MS", Font.PLAIN, Font.ROMAN_BASELINE).deriveFont(20.0f);
 	FontMetrics scoreFontMetrics = this.getFontMetrics(this.scoreFont);
 	public Knight k = new Knight();
-	Skeleton[] skeletonArray = new Skeleton[10000];
+	Skeleton[] skeletonArray = new Skeleton[1000];
 	int health;
 	int wave;
-
-	public Board() {
+	
+	//consructor
+	public Board(){
+		//starts the key listening and sets up image drawing
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		setBackground(Color.BLACK);
 		setDoubleBuffered(true);
+		//initial health and wave
 		health = 10;
 		wave = 1;
+		//makes the initial skeleton array(adds a new skeleton in each spot)
 		for(int x = 0; x < skeletonArray.length; x++){
 			skeletonArray[x] = new Skeleton();
 		}
-
+		
+		//makes the first two skeletons visible
 		skeletonArray[0].makeVisible();
+		skeletonArray[1].makeVisible();
+		
+		//sets up the timer
 		timer = new Timer(8, this);
 		timer.start();
-		loadImage();
+		
+		//loads the background
+		loadBackgroundImage();
 	}
-
+	
+	//graphics method(basically has all our coordinate tracking)
 	public void paint(Graphics g) {
+		
+		//sets up the graphics
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
+		//only does all of this if the health is greater than 0
 		if(health > 0){
 		
+		//rectangle for knight for collision detection
 		Rectangle knightRect = new Rectangle(k.getX(), k.getY(), 48, 48);
 		
+		//sets the wave
 		wave = score/10;
 		
-		for(int x = 0; x < (wave^2); x++){
+		//makes the appropriate number of skeletons visible
+		for(int x = 0; x < (2^wave); x++){
 			skeletonArray[x].makeVisible();
 		}
-
+		
+		//goes through and handles skeleton collisions(if they are visible)
 		for(int x = 0; x < skeletonArray.length; x++){
 			if(skeletonArray[x].visible){
 				if(skeletonArray[x].checkCollisions(knightRect, k.notAttacking)){
@@ -71,8 +91,10 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 		
+		//draws the knight
 		g2d.drawImage(k.getImage(), k.getX(), k.getY(), this);
 		
+		//draws every skeleton(if visible)
 		for(int x = 0; x < skeletonArray.length; x++){
 			if(skeletonArray[x].visible){
 				g2d.drawImage(skeletonArray[x].getImage(), skeletonArray[x].getX(), skeletonArray[x].getY(), this);
@@ -80,12 +102,15 @@ public class Board extends JPanel implements ActionListener {
 			}
 		}
 		
+		//prints the score, health, and wave
 		g2d.setColor(Color.ORANGE);
 		g2d.setFont(this.scoreFont);
 		g2d.drawString(String.format("Score: %d", this.score), 0, this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent());
 		g2d.drawString(String.format("Health: %d", this.health), 0, 2 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
 		g2d.drawString(String.format("Wave: %d", this.wave), 0, 3 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
 		}else{
+			//this runs if the game is over(when health <= 0)
+			//prints game over
 			Font gameOverFont = this.scoreFont.deriveFont(100.0f);
 			FontMetrics gameOverFontMetrics = this.getFontMetrics(gameOverFont);
 			g2d.setFont(gameOverFont);
@@ -93,10 +118,13 @@ public class Board extends JPanel implements ActionListener {
 			g2d.drawString("Game Over", 0, gameOverFontMetrics.getHeight() - gameOverFontMetrics.getMaxAscent() + gameOverFontMetrics.getAscent());
 		}
 		
+		//From zetcode.net java games tutorial(probably refreshes everything), makes things work{
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
+		//}
 	}
-
+	
+	//paints the background
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int width = getWidth();
@@ -106,23 +134,27 @@ public class Board extends JPanel implements ActionListener {
 		int x = (width - imageWidth) / 2;
 		int y = (height - imageHeight) / 2;
 		g.drawImage(background, x, y, this);
+		//background is black when game is over
 		if(health <= 0){
 		g.setColor(new Color(0x000000));
 		g.fillRect(0, 0, width, height);
 		}
 	}
-
-	public void loadImage() {
+	
+	//loads the background image(dirt floor)
+	public void loadBackgroundImage() {
 		ImageIcon image = new ImageIcon(this.getClass().getResource(
 				"Background.png"));
 		background = image.getImage();
 	}
-
+	
+	//if an action is preformed, knight is moved
 	public void actionPerformed(ActionEvent e) {
 		k.move();
 		repaint();
 	}
-
+	
+	//from zetcode.net java games tutorial (if the key is released or the key is pressed, runs knights key released and key pressed methods){
 	private class TAdapter extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			k.keyReleased(e);
@@ -132,4 +164,5 @@ public class Board extends JPanel implements ActionListener {
 			k.keyPressed(e);
 		}
 	}
+	//}
 }
