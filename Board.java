@@ -35,14 +35,21 @@ public class Board extends JPanel implements ActionListener {
 		setFocusable(true);
 		setBackground(Color.BLACK);
 		setDoubleBuffered(true);
+		
 		//initial health and wave
 		health = 10;
 		wave = 1;
+		
 		//makes the initial skeleton array(adds a new skeleton in each spot)
 		for(int x = 0; x < skeletonArray.length; x++){
 			skeletonArray[x] = new Skeleton();
 		}
 		
+		//makes piles of loot
+		for(int x = 0; x < 3; x++) {
+			lootArray[x] = new Loot();
+		}
+
 		//makes the first two skeletons visible
 		skeletonArray[0].makeVisible();
 		skeletonArray[1].makeVisible();
@@ -72,9 +79,19 @@ public class Board extends JPanel implements ActionListener {
 		wave = score/10;
 		
 		//makes the appropriate number of skeletons visible
-		for(int x = 0; x < (2^wave); x++){
-			skeletonArray[x].makeVisible();
+		if ((wave ^ 2) < 999) {
+			for (int x = 0; x < (wave ^ 2); x++) {
+				skeletonArray[x].makeVisible();
+			}
 		}
+		
+		// creates the right amount of loot piles
+		for(int x = 0; x < 3; x++) {
+			if(lootArray[x].checkknightCollisions(knightRect)) {
+				score+=lootArray[x].value;
+			}
+		}
+
 		
 		//goes through and handles skeleton collisions(if they are visible)
 		for(int x = 0; x < skeletonArray.length; x++){
@@ -82,11 +99,12 @@ public class Board extends JPanel implements ActionListener {
 				if(skeletonArray[x].checkCollisions(knightRect, k.notAttacking)){
 					score++;
 				}else{
-					if(k.notAttacking)
+					if(k.notAttacking) {
 						if((skeletonArray[x].checkknightCollisions(knightRect))){
 							health--;
 							skeletonArray[x].xcoord -= 100;
 						}
+					}
 				}
 			}
 		}
@@ -109,19 +127,16 @@ public class Board extends JPanel implements ActionListener {
 		g2d.drawString(String.format("  Health: %d", this.health), 0, 2 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
 		g2d.drawString(String.format("  Wave: %d", this.wave), 0, 3 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
 		}else{
-			//this runs if the game is over(when health <= 0)
-			//prints game over
+			//prints game over if health < 0
 			Image gameOver;
 			ImageIcon gO = new ImageIcon(this.getClass().getResource("Game Over.png"));
 			gameOver = gO.getImage();
 			g2d.drawImage(gameOver, 0, 0, null);
-
 		}
 		
-		//From zetcode.net java games tutorial(probably refreshes everything), makes things work{
+		//From zetcode.net java games tutorial(probably refreshes everything), makes things work
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
-		//}
 	}
 	
 	//paints the background
@@ -134,6 +149,7 @@ public class Board extends JPanel implements ActionListener {
 		int x = (width - imageWidth) / 2;
 		int y = (height - imageHeight) / 2;
 		g.drawImage(background, x, y, this);
+		
 		//background is black when game is over
 		if(health <= 0){
 		g.setColor(new Color(0x000000));
@@ -143,8 +159,7 @@ public class Board extends JPanel implements ActionListener {
 	
 	//loads the background image(dirt floor)
 	public void loadBackgroundImage() {
-		ImageIcon image = new ImageIcon(this.getClass().getResource(
-				"Background.png"));
+		ImageIcon image = new ImageIcon(this.getClass().getResource("Background.png"));
 		background = image.getImage();
 	}
 	
@@ -154,7 +169,7 @@ public class Board extends JPanel implements ActionListener {
 		repaint();
 	}
 	
-	//from zetcode.net java games tutorial (if the key is released or the key is pressed, runs knights key released and key pressed methods){
+	//from zetcode.net java games tutorial (if the key is released or the key is pressed, runs knights key released and key pressed methods)
 	private class TAdapter extends KeyAdapter {
 		public void keyReleased(KeyEvent e) {
 			k.keyReleased(e);
@@ -164,5 +179,4 @@ public class Board extends JPanel implements ActionListener {
 			k.keyPressed(e);
 		}
 	}
-	//}
 }
