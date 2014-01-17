@@ -141,5 +141,4 @@ public class Knight {
 		if (key == KeyEvent.VK_DOWN) {
 			changeinY = 0;
 		}
-
 	}
