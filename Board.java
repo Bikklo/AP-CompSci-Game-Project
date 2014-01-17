@@ -24,6 +24,7 @@ public class Board extends JPanel implements ActionListener {
 	Font scoreFont = new Font("Arcadepix Plus", Font.TRUE_TYPE, Font.ROMAN_BASELINE).deriveFont(24.0f);
 	FontMetrics scoreFontMetrics = this.getFontMetrics(this.scoreFont);
 	public Knight k = new Knight();
+	Loot[] lootArray = new Loot[5];
 	Skeleton[] skeletonArray = new Skeleton[1000];
 	int health;
 	int wave;
@@ -40,16 +41,16 @@ public class Board extends JPanel implements ActionListener {
 		health = 10;
 		wave = 1;
 		
+		//makes piles of loot
+		for(int x = 0; x < lootArray.length(); x++) {
+			lootArray[x] = new Loot();
+		}
+
 		//makes the initial skeleton array(adds a new skeleton in each spot)
 		for(int x = 0; x < skeletonArray.length; x++){
 			skeletonArray[x] = new Skeleton();
 		}
 		
-		//makes piles of loot
-		for(int x = 0; x < 3; x++) {
-			lootArray[x] = new Loot();
-		}
-
 		//makes the first two skeletons visible
 		skeletonArray[0].makeVisible();
 		skeletonArray[1].makeVisible();
