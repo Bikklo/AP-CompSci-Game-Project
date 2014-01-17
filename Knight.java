@@ -22,22 +22,18 @@ public class Knight {
 	public Knight() {
 		// loads all the different images knight will need ie. mirror and mirror
 		// attack
-		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource(
-				"Knight.png"));
-		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource(
-				"KnightAttack.png"));
-		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource(
-				"KnightLeft.png"));
-		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass()
-				.getResource("Knight Attack Left.png"));
+		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource("Knight.png"));
+		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource("KnightAttack.png"));
+		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource("KnightLeft.png"));
+		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass().getResource("Knight Attack Left.png"));
 		knight = knightTemp.getImage();
 		knightAttack = knightAttackTemp.getImage();
 		knightMirror = knightLeftTemp.getImage();
 		knightAttackMirror = knightAttackMirrorTemp.getImage();
 
 		// sets the initial x coordinates
-		xcoord = 48;
-		ycoord = 48;
+		xcoord = 232;
+		ycoord = 232;
 	}
 
 	// moves the knight by changing the coordinates
