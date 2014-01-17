@@ -21,7 +21,7 @@ public class Board extends JPanel implements ActionListener {
 	Random generator = new Random(8659);
 	Image background;
 	Timer timer;
-	Font scoreFont = new Font("Arcadepix Plus", Font.TRUE_TYPE, Font.ROMAN_BASELINE).deriveFont(24.0f);
+	Font scoreFont = new Font("Arcadepix Plus", Font.TRUETYPE_FONT, Font.ROMAN_BASELINE).deriveFont(24.0f);
 	FontMetrics scoreFontMetrics = this.getFontMetrics(this.scoreFont);
 	public Knight k = new Knight();
 	Loot[] lootArray = new Loot[5];
