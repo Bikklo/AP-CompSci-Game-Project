@@ -11,6 +11,7 @@ public class Knight {
 	public int changeinY;
 	public int xcoord;
 	public int ycoord;
+	public long prevTime = 0;
 
 	// initializes the images we will be using
 	Image knight;
@@ -22,10 +23,14 @@ public class Knight {
 	public Knight() {
 		// loads all the different images knight will need ie. mirror and mirror
 		// attack
-		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource("Knight.png"));
-		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource("KnightAttack.png"));
-		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource("KnightLeft.png"));
-		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass().getResource("Knight Attack Left.png"));
+		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource(
+				"Knight.png"));
+		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource(
+				"Knight Attack.png"));
+		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource(
+				"Knight Left.png"));
+		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass()
+				.getResource("Knight Attack Left.png"));
 		knight = knightTemp.getImage();
 		knightAttack = knightAttackTemp.getImage();
 		knightMirror = knightLeftTemp.getImage();
@@ -38,6 +43,11 @@ public class Knight {
 
 	// moves the knight by changing the coordinates
 	public void move() {
+		if((System.currentTimeMillis()- prevTime) > 500){
+			notAttacking = true;
+		}else{
+			notAttacking = false;
+		}	
 		xcoord += changeinX;
 		ycoord += changeinY;
 	}
@@ -79,6 +89,7 @@ public class Knight {
 
 		// x key if for attack
 		if ((key == KeyEvent.VK_X)) {
+			prevTime = System.currentTimeMillis();
 			notAttacking = false;
 		}
 
@@ -142,3 +153,4 @@ public class Knight {
 			changeinY = 0;
 		}
 	}
+}
