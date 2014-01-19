@@ -1,7 +1,5 @@
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
@@ -23,8 +21,7 @@ public class Board extends JPanel implements ActionListener {
 	Random generator = new Random(8659);
 	Image background;
 	Timer timer;
-	Font scoreFont = new Font("Arcadepix", Font.TRUETYPE_FONT,
-			Font.ROMAN_BASELINE).deriveFont(15.0f);
+	Font scoreFont = new Font("Arcadepix plus", Font.TRUETYPE_FONT, Font.ROMAN_BASELINE).deriveFont(15.0f);
 	FontMetrics scoreFontMetrics = this.getFontMetrics(this.scoreFont);
 	public Knight k = new Knight();
 	Loot[] lootArray = new Loot[5];
@@ -99,13 +96,11 @@ public class Board extends JPanel implements ActionListener {
 			// goes through and handles skeleton collisions(if they are visible)
 			for (int x = 0; x < skeletonArray.length; x++) {
 				if (skeletonArray[x].visible) {
-					if (skeletonArray[x].checkCollisions(knightRect,
-							k.notAttacking)) {
+					if (skeletonArray[x].checkCollisions(knightRect, k.notAttacking)) {
 						score++;
 					} else {
 						if (k.notAttacking) {
-							if ((skeletonArray[x]
-									.checkknightCollisions(knightRect))) {
+							if ((skeletonArray[x].checkknightCollisions(knightRect))) {
 								health--;
 								skeletonArray[x].xcoord -= 100;
 							}
@@ -120,16 +115,13 @@ public class Board extends JPanel implements ActionListener {
 			// draws loots
 
 			for (int x = 0; x < 3; x++) {
-				g2d.drawImage(lootArray[x].getImage(), lootArray[x].getX(),
-						lootArray[x].getY(), this);
+				g2d.drawImage(lootArray[x].getImage(), lootArray[x].getX(), lootArray[x].getY(), this);
 			}
 
 			// draws every skeleton(if visible)
 			for (int x = 0; x < skeletonArray.length; x++) {
 				if (skeletonArray[x].visible) {
-					g2d.drawImage(skeletonArray[x].getImage(),
-							skeletonArray[x].getX(), skeletonArray[x].getY(),
-							this);
+					g2d.drawImage(skeletonArray[x].getImage(), skeletonArray[x].getX(), skeletonArray[x].getY(), this);
 					skeletonArray[x].move(k.getX(), k.getY());
 				}
 			}
@@ -137,37 +129,17 @@ public class Board extends JPanel implements ActionListener {
 			// prints the score, health, and wave
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(this.scoreFont);
-			g2d.drawString(
-					String.format("  Score: %d", this.score),
-					-20,
-					this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent()
-							+ this.scoreFontMetrics.getAscent());
-			g2d.drawString(
-					String.format("  Health: %d", this.health),
-					-20,
-					2 * (this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics
-							.getAscent()));
-			g2d.drawString(
-					String.format("  Wave: %d", this.wave),
-					-20,
-					3 * (this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics
-							.getAscent()));
+			g2d.drawString(String.format("Score: %d", this.score), 10, this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent());
+			g2d.drawString(String.format("Health: %d", this.health), 10, 2 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
+			g2d.drawString(String.format("Wave: %d", this.wave), 10, 3 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
 		} else {
 			// prints game over if health < 0
 			Image gameOver;
 			g2d.setColor(Color.WHITE);
-			g2d.setFont(this.scoreFont);
-			g2d.drawString(
-					String.format("  Score: %d", this.score),
-					-20,
-					this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent()
-							+ this.scoreFontMetrics.getAscent());
-			ImageIcon gO = new ImageIcon(this.getClass().getResource(
-					"Game Over.png"));
+			Font finalScoreFont = new Font("Arcadepix plus", Font.TRUETYPE_FONT, Font.ROMAN_BASELINE).deriveFont(45.0f);
+			g2d.setFont(finalScoreFont);
+			g2d.drawString(String.format("Score: %d", this.score), 160, 325);
+			ImageIcon gO = new ImageIcon(this.getClass().getResource("Game Over.png"));
 			gameOver = gO.getImage();
 			g2d.drawImage(gameOver, 0, 0, null);
 		}
@@ -198,8 +170,7 @@ public class Board extends JPanel implements ActionListener {
 
 	// loads the background image(dirt floor)
 	public void loadBackgroundImage() {
-		ImageIcon image = new ImageIcon(this.getClass().getResource(
-				"Background.png"));
+		ImageIcon image = new ImageIcon(this.getClass().getResource("Background.png"));
 		background = image.getImage();
 	}
 
