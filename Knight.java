@@ -12,6 +12,8 @@ public class Knight {
 	public int xcoord;
 	public int ycoord;
 	public long prevTime = 0;
+	public boolean attackState = false;
+	public boolean previousState = false;
 
 	// initializes the images we will be using
 	Image knight;
@@ -43,11 +45,7 @@ public class Knight {
 
 	// moves the knight by changing the coordinates
 	public void move() {
-		if((System.currentTimeMillis()- prevTime) > 500){
-			notAttacking = true;
-		}else{
-			notAttacking = false;
-		}	
+
 		xcoord += changeinX;
 		ycoord += changeinY;
 	}
@@ -60,6 +58,18 @@ public class Knight {
 	// returns the ycoord for boards use
 	public int getY() {
 		return ycoord;
+	}
+
+	public void check() {
+		if (attackState == true) {
+			if ((System.currentTimeMillis() - prevTime) > 500) {
+				notAttacking = true;
+			} else {
+				notAttacking = false;
+			}
+		}else{
+			notAttacking = true;
+		}
 	}
 
 	// returns the image based on what direction the knight is going
@@ -83,13 +93,17 @@ public class Knight {
 
 	// handles a key press
 	public void keyPressed(KeyEvent e) {
-
+		
 		// gets what key is pressed
 		int key = e.getKeyCode();
 
 		// x key if for attack
-		if ((key == KeyEvent.VK_X)) {
+		if ((key == KeyEvent.VK_X)){
+			attackState = true;
+			if(previousState == false){
 			prevTime = System.currentTimeMillis();
+			previousState = true;
+			}
 			notAttacking = false;
 		}
 
@@ -133,9 +147,12 @@ public class Knight {
 
 	// handles a keyRelease
 	public void keyReleased(KeyEvent e) {
+
 		int key = e.getKeyCode();
 		if ((key == KeyEvent.VK_X)) {
+			attackState = false;
 			notAttacking = true;
+			previousState = false;
 		}
 		if (key == KeyEvent.VK_LEFT) {
 			changeinX = 0;
