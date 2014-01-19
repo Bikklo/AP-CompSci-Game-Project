@@ -158,6 +158,14 @@ public class Board extends JPanel implements ActionListener {
 		} else {
 			// prints game over if health < 0
 			Image gameOver;
+			g2d.setColor(Color.WHITE);
+			g2d.setFont(this.scoreFont);
+			g2d.drawString(
+					String.format("  Score: %d", this.score),
+					-20,
+					this.scoreFontMetrics.getHeight()
+							- this.scoreFontMetrics.getMaxAscent()
+							+ this.scoreFontMetrics.getAscent());
 			ImageIcon gO = new ImageIcon(this.getClass().getResource(
 					"Game Over.png"));
 			gameOver = gO.getImage();
