@@ -25,10 +25,14 @@ public class Knight {
 	public Knight() {
 		// loads all the different images knight will need ie. mirror and mirror
 		// attack
-		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource("Knight.png"));
-		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource("Knight Attack.png"));
-		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource("Knight Left.png"));
-		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass().getResource("Knight Attack Left.png"));
+		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource(
+				"Knight.png"));
+		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource(
+				"Knight Attack.png"));
+		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource(
+				"Knight Left.png"));
+		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass()
+				.getResource("Knight Attack Left.png"));
 		knight = knightTemp.getImage();
 		knightAttack = knightAttackTemp.getImage();
 		knightMirror = knightLeftTemp.getImage();
@@ -63,7 +67,7 @@ public class Knight {
 			} else {
 				notAttacking = false;
 			}
-		} else {
+		}else{
 			notAttacking = true;
 		}
 	}
@@ -89,16 +93,16 @@ public class Knight {
 
 	// handles a key press
 	public void keyPressed(KeyEvent e) {
-
+		
 		// gets what key is pressed
 		int key = e.getKeyCode();
 
 		// x key if for attack
-		if ((key == KeyEvent.VK_X)) {
+		if ((key == KeyEvent.VK_X)){
 			attackState = true;
-			if (previousState == false) {
-				prevTime = System.currentTimeMillis();
-				previousState = true;
+			if(previousState == false){
+			prevTime = System.currentTimeMillis();
+			previousState = true;
 			}
 			notAttacking = false;
 		}
