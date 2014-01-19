@@ -12,6 +12,7 @@ public class Game extends JFrame {
 		setVisible(true);
 		setResizable(false);
 	}
+
 	// creates a new game
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
