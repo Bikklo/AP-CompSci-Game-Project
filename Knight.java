@@ -25,22 +25,18 @@ public class Knight {
 	public Knight() {
 		// loads all the different images knight will need ie. mirror and mirror
 		// attack
-		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource(
-				"Knight.png"));
-		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource(
-				"Knight Attack.png"));
-		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource(
-				"Knight Left.png"));
-		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass()
-				.getResource("Knight Attack Left.png"));
+		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource("Knight.png"));
+		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource("Knight Attack.png"));
+		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource("Knight Left.png"));
+		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass().getResource("Knight Attack Left.png"));
 		knight = knightTemp.getImage();
 		knightAttack = knightAttackTemp.getImage();
 		knightMirror = knightLeftTemp.getImage();
 		knightAttackMirror = knightAttackMirrorTemp.getImage();
 
 		// sets the initial x coordinates
-		xcoord = 232;
-		ycoord = 232;
+		xcoord = 256;
+		ycoord = 256;
 	}
 
 	// moves the knight by changing the coordinates
@@ -67,7 +63,7 @@ public class Knight {
 			} else {
 				notAttacking = false;
 			}
-		}else{
+		} else {
 			notAttacking = true;
 		}
 	}
@@ -93,16 +89,16 @@ public class Knight {
 
 	// handles a key press
 	public void keyPressed(KeyEvent e) {
-		
+
 		// gets what key is pressed
 		int key = e.getKeyCode();
 
 		// x key if for attack
-		if ((key == KeyEvent.VK_X)){
+		if ((key == KeyEvent.VK_X)) {
 			attackState = true;
-			if(previousState == false){
-			prevTime = System.currentTimeMillis();
-			previousState = true;
+			if (previousState == false) {
+				prevTime = System.currentTimeMillis();
+				previousState = true;
 			}
 			notAttacking = false;
 		}
