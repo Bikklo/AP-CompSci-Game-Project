@@ -58,7 +58,7 @@ public class Skeleton {
 	// checks collisions
 	public boolean checkCollisions(Rectangle knightRect, boolean k) {
 		// makes a rectangle around the skeleton
-		Rectangle skeletonRect = new Rectangle(this.getX(), this.getY(), 36, 48);
+		Rectangle skeletonRect = new Rectangle(this.getX() - 10, this.getY() - 10, 28, 28);
 		// if it intersects with the knight and it is attacking, the skeleton
 		// moves out of the map
 		if ((skeletonRect.intersects(knightRect)) && (k == false)) {
