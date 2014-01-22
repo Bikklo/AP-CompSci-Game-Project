@@ -16,28 +16,24 @@ public class Knight {
 	public boolean previousState = false;
 	public boolean refresh = false;
 
-	// initializes the images we will be using
+	// initializes the images used
 	Image knight;
 	Image knightAttack;
-	Image knightMirror;
-	Image knightAttackMirror;
+	Image knightLeft;
+	Image knightAttackLeft;
 
 	// constructor
 	public Knight() {
-		// loads all the different images knight will need ie. mirror and mirror
-		// attack
-		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource(
-				"Knight.png"));
-		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource(
-				"Knight Attack.png"));
-		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource(
-				"Knight Left.png"));
-		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass()
-				.getResource("Knight Attack Left.png"));
+		// loads all the different images knight will need ie. KnightLeft and
+		// KnightAttackLeft
+		ImageIcon knightTemp = new ImageIcon(this.getClass().getResource("Knight.png"));
+		ImageIcon knightAttackTemp = new ImageIcon(this.getClass().getResource("Knight Attack.png"));
+		ImageIcon knightLeftTemp = new ImageIcon(this.getClass().getResource("Knight Left.png"));
+		ImageIcon knightAttackMirrorTemp = new ImageIcon(this.getClass().getResource("Knight Attack Left.png"));
 		knight = knightTemp.getImage();
 		knightAttack = knightAttackTemp.getImage();
-		knightMirror = knightLeftTemp.getImage();
-		knightAttackMirror = knightAttackMirrorTemp.getImage();
+		knightLeft = knightLeftTemp.getImage();
+		knightAttackLeft = knightAttackMirrorTemp.getImage();
 
 		// sets the initial x coordinates
 		xcoord = 232;
@@ -46,7 +42,6 @@ public class Knight {
 
 	// moves the knight by changing the coordinates
 	public void move() {
-
 		xcoord += changeinX;
 		ycoord += changeinY;
 	}
@@ -68,13 +63,14 @@ public class Knight {
 			} else {
 				notAttacking = false;
 			}
-		}else{
+		} else {
 			notAttacking = true;
 		}
 	}
 
 	// returns the image based on what direction the knight is going
 	public Image getImage() {
+
 		// when it is going right it returns the normal pictures
 		if (knightgoingLeft == false) {
 			if (notAttacking) {
@@ -82,28 +78,29 @@ public class Knight {
 			} else {
 				return knightAttack;
 			}
+
 			// mirror pictures if going left
 		} else {
 			if (notAttacking) {
-				return knightMirror;
+				return knightLeft;
 			} else {
-				return knightAttackMirror;
+				return knightAttackLeft;
 			}
 		}
 	}
 
 	// handles a key press
 	public void keyPressed(KeyEvent e) {
-		
+
 		// gets what key is pressed
 		int key = e.getKeyCode();
 
 		// x key if for attack
-		if ((key == KeyEvent.VK_X)){
+		if ((key == KeyEvent.VK_X)) {
 			attackState = true;
-			if(previousState == false){
-			prevTime = System.currentTimeMillis();
-			previousState = true;
+			if (previousState == false) {
+				prevTime = System.currentTimeMillis();
+				previousState = true;
 			}
 			notAttacking = false;
 		}
@@ -146,18 +143,18 @@ public class Knight {
 
 	}
 
-	// handles a keyRelease
-	// sets the increment that the knight needs to move to 0
+	// handles a keyRelease and sets the increment that the knight needs to move
+	// to 0
 	public void keyReleased(KeyEvent e) {
 
 		int key = e.getKeyCode();
 		if ((key == KeyEvent.VK_X)) {
-			//does not let the knight attack
+			// does not let the knight attack
 			attackState = false;
 			notAttacking = true;
 			previousState = false;
 		}
-		//dx and dy to 0 for all directions
+		// dx and dy to 0 for all directions
 		if (key == KeyEvent.VK_LEFT) {
 			changeinX = 0;
 		}
@@ -173,8 +170,8 @@ public class Knight {
 		if (key == KeyEvent.VK_DOWN) {
 			changeinY = 0;
 		}
-		//space refreshes the game or starts the game when pressed and released
-		if (key == KeyEvent.VK_SPACE){
+		// space refreshes the game or starts the game when pressed and released
+		if (key == KeyEvent.VK_SPACE) {
 			refresh = true;
 		}
 	}
