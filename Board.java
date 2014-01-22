@@ -21,13 +21,12 @@ public class Board extends JPanel implements ActionListener {
 	Random generator = new Random();
 	Image background;
 	Timer timer;
-	Font scoreFont = new Font("Arcadepix", Font.TRUETYPE_FONT,
-			Font.ROMAN_BASELINE).deriveFont(15.0f);
+	Font scoreFont = new Font("Arcadepix Plus", Font.TRUETYPE_FONT, Font.ROMAN_BASELINE).deriveFont(15.0f);
 	FontMetrics scoreFontMetrics = this.getFontMetrics(this.scoreFont);
 	public Knight k = new Knight();
 	Loot[] lootArray = new Loot[5];
 	Skeleton[] skeletonArray = new Skeleton[1000];
-	Life heart = new Life();
+	Heart heart = new Heart();
 	int health;
 	int wave;
 	public boolean playing = false;
@@ -73,140 +72,115 @@ public class Board extends JPanel implements ActionListener {
 		// sets up the graphics
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-		
-		if(!playing){
-			if(k.refresh == true){
+
+		if (!playing) {
+			if (k.refresh == true) {
 				playing = true;
 			}
 		}
-		
-		if(playing){
-		// only does all of this if the health is greater than 0
-		if (health > 0) {
-			k.refresh = false;
-			
-			//checks if knight has been holding out sword to long
-			k.check();
-			
-			// rectangle for knight for collision detection
-			Rectangle knightRect = new Rectangle(k.getX(), k.getY(), 48, 48);
-			
-			// sets the wave
-			wave = score / 10;
 
-			// makes the appropriate number of skeletons visible
-			if ((Math.pow(wave, 2)/4) < 999) {
-				for (int x = 0; x < (Math.pow(wave, 2)/4); x++) {
-					skeletonArray[x].makeVisible();
-				}
-			}
+		if (playing) {
+			// only does all of this if the health is greater than 0
+			if (health > 0) {
+				k.refresh = false;
 
-			// creates the right amount of loot piles
-			for (int x = 0; x < 3; x++) {
-				if (lootArray[x].checkknightCollisions(knightRect)) {
-					score += lootArray[x].value;
+				// checks if knight has been holding out sword to long
+				k.check();
+
+				// rectangle for knight for collision detection
+				Rectangle knightRect = new Rectangle(k.getX(), k.getY(), 48, 48);
+
+				// sets the wave
+				wave = score / 10;
+
+				// makes the appropriate number of skeletons visible
+				if ((Math.pow(wave, 2) / 4) < 999) {
+					for (int x = 0; x < (Math.pow(wave, 2) / 4); x++) {
+						skeletonArray[x].makeVisible();
+					}
 				}
-			}
-			
-			if (heart.checkknightCollisions(knightRect)) {
-				health += heart.value;
-			}
-			
-			// goes through and handles skeleton collisions(if they are visible)
-			for (int x = 0; x < skeletonArray.length; x++) {
-				if (skeletonArray[x].visible) {
-					if (skeletonArray[x].checkCollisions(knightRect,
-							k.notAttacking)) {
-						score++;
-					} else {
-						if (k.notAttacking) {
-							if ((skeletonArray[x]
-									.checkknightCollisions(knightRect))) {
-								health--;
-								skeletonArray[x].xcoord -= 100;
+
+				// creates the right amount of loot piles
+				for (int x = 0; x < 3; x++) {
+					if (lootArray[x].checkknightCollisions(knightRect)) {
+						score += lootArray[x].value;
+					}
+				}
+
+				if (heart.checkknightCollisions(knightRect)) {
+					health += heart.value;
+				}
+
+				// goes through and handles skeleton collisions(if they are
+				// visible)
+				for (int x = 0; x < skeletonArray.length; x++) {
+					if (skeletonArray[x].visible) {
+						if (skeletonArray[x].checkCollisions(knightRect, k.notAttacking)) {
+							score++;
+						} else {
+							if (k.notAttacking) {
+								if ((skeletonArray[x].checkknightCollisions(knightRect))) {
+									health--;
+									skeletonArray[x].xcoord -= 100;
+								}
 							}
 						}
 					}
 				}
-			}
 
-			// draws the knight
-			g2d.drawImage(k.getImage(), k.getX(), k.getY(), this);
+				// draws the knight
+				g2d.drawImage(k.getImage(), k.getX(), k.getY(), this);
 
-			// draws loots
+				// draws loots
 
-			for (int x = 0; x < 3; x++) {
-				g2d.drawImage(lootArray[x].getImage(), lootArray[x].getX(),
-						lootArray[x].getY(), this);
-			}
-			
-			g2d.drawImage(heart.getImage(), heart.getX(), heart.getY(), this);
+				for (int x = 0; x < 3; x++) {
+					g2d.drawImage(lootArray[x].getImage(), lootArray[x].getX(), lootArray[x].getY(), this);
+				}
 
-			// draws every skeleton(if visible)
-			for (int x = 0; x < skeletonArray.length; x++) {
-				if (skeletonArray[x].visible) {
-					g2d.drawImage(skeletonArray[x].getImage(),
-							skeletonArray[x].getX(), skeletonArray[x].getY(),
-							this);
-					skeletonArray[x].move(k.getX(), k.getY());
+				g2d.drawImage(heart.getImage(), heart.getX(), heart.getY(), this);
+
+				// draws every skeleton(if visible)
+				for (int x = 0; x < skeletonArray.length; x++) {
+					if (skeletonArray[x].visible) {
+						g2d.drawImage(skeletonArray[x].getImage(), skeletonArray[x].getX(), skeletonArray[x].getY(), this);
+						skeletonArray[x].move(k.getX(), k.getY());
+					}
+				}
+
+				// prints the score, health, and wave
+				g2d.setColor(Color.WHITE);
+				g2d.setFont(this.scoreFont);
+				g2d.drawString(String.format("  Score: %d", this.score), -20, this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent());
+				g2d.drawString(String.format("  Health: %d", this.health), -20, 2 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
+				g2d.drawString(String.format("  Wave: %d", this.wave + 1), -20, 3 * (this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent()));
+			} else {
+				// prints game over if health < 0
+				Image gameOver;
+				g2d.setColor(Color.WHITE);
+				g2d.setFont(this.scoreFont);
+				g2d.drawString(String.format("  Score: %d", this.score), -20, this.scoreFontMetrics.getHeight() - this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics.getAscent());
+				ImageIcon gO = new ImageIcon(this.getClass().getResource("Game Over.png"));
+				gameOver = gO.getImage();
+				g2d.drawImage(gameOver, 0, 0, null);
+				// refreshes the game if space is pressed
+				if (k.refresh == true) {
+					// makes all skeletons except 2 invisible
+					for (int x = 2; x < skeletonArray.length; x++) {
+						skeletonArray[x].visible = false;
+					}
+					// resets coordinates of two skeletons
+					skeletonArray[0].xcoord = -100;
+					skeletonArray[0].ycoord = -100;
+					skeletonArray[1].xcoord = -200;
+					skeletonArray[1].ycoord = -200;
+					// refreshes knight coordinates
+					k.xcoord = 232;
+					k.ycoord = 232;
+					// refreshes score and health
+					score = 0;
+					health = 10;
 				}
 			}
-
-			// prints the score, health, and wave
-			g2d.setColor(Color.WHITE);
-			g2d.setFont(this.scoreFont);
-			g2d.drawString(
-					String.format("  Score: %d", this.score),
-					-20,
-					this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent()
-							+ this.scoreFontMetrics.getAscent());
-			g2d.drawString(
-					String.format("  Health: %d", this.health),
-					-20,
-					2 * (this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics
-							.getAscent()));
-			g2d.drawString(
-					String.format("  Wave: %d", this.wave + 1),
-					-20,
-					3 * (this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent() + this.scoreFontMetrics
-							.getAscent()));
-		} else {
-			// prints game over if health < 0
-			Image gameOver;
-			g2d.setColor(Color.WHITE);
-			g2d.setFont(this.scoreFont);
-			g2d.drawString(
-					String.format("  Score: %d", this.score),
-					-20,
-					this.scoreFontMetrics.getHeight()
-							- this.scoreFontMetrics.getMaxAscent()
-							+ this.scoreFontMetrics.getAscent());
-			ImageIcon gO = new ImageIcon(this.getClass().getResource(
-					"Game Over.png"));
-			gameOver = gO.getImage();
-			g2d.drawImage(gameOver, 0, 0, null);
-			//refreshes the game if space is pressed
-			if(k.refresh == true){
-				//makes all skeletons except 2 invisible
-				for (int x = 2; x < skeletonArray.length; x++) {
-					skeletonArray[x].visible = false;
-				}
-				//resets coordinates of two skeletons
-				skeletonArray[0].xcoord = -100;
-				skeletonArray[0].ycoord = -100;
-				skeletonArray[1].xcoord = -200;
-				skeletonArray[1].ycoord = -200;
-				//refreshes knight coordinates
-				k.xcoord = 232;
-				k.ycoord = 232;
-				//refreshes score and health
-				score = 0;
-				health = 10;
-			}
-		}
 		}
 		// From zetcode.net java games tutorial(probably refreshes everything),
 		// makes things work
@@ -217,24 +191,24 @@ public class Board extends JPanel implements ActionListener {
 	// paints the background
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-		if(playing){
-		//dirt floor
-		int width = getWidth();
-		int height = getHeight();
-		int imageWidth = background.getWidth(this);
-		int imageHeight = background.getHeight(this);
-		int x = (width - imageWidth) / 2;
-		int y = (height - imageHeight) / 2;
-		g.drawImage(background, x, y, this);
 
-		// background is black when game is over
-		if (health <= 0) {
-			g.setColor(new Color(0x000000));
-			g.fillRect(0, 0, width, height);
-		}
-		}else{
-			//if not playing, draws the cover screen
+		if (playing) {
+			// dirt floor
+			int width = getWidth();
+			int height = getHeight();
+			int imageWidth = background.getWidth(this);
+			int imageHeight = background.getHeight(this);
+			int x = (width - imageWidth) / 2;
+			int y = (height - imageHeight) / 2;
+			g.drawImage(background, x, y, this);
+
+			// background is black when game is over
+			if (health <= 0) {
+				g.setColor(new Color(0x000000));
+				g.fillRect(0, 0, width, height);
+			}
+		} else {
+			// if not playing, draws the cover screen
 			int width = getWidth();
 			int height = getHeight();
 			g.setColor(new Color(0x000000));
@@ -249,11 +223,9 @@ public class Board extends JPanel implements ActionListener {
 
 	// loads the background image(dirt floor)
 	public void loadBackgroundImage() {
-		ImageIcon image = new ImageIcon(this.getClass().getResource(
-				"Background.png"));
+		ImageIcon image = new ImageIcon(this.getClass().getResource("Background.png"));
 		background = image.getImage();
-		ImageIcon tempCover = new ImageIcon(this.getClass().getResource(
-				"cover.png"));
+		ImageIcon tempCover = new ImageIcon(this.getClass().getResource("cover.png"));
 		cover = tempCover.getImage();
 	}
 
